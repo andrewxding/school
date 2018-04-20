@@ -1,5 +1,0 @@
-SELECT *
-FROM ((Movie
-INNER JOIN MovieActor ON Movie.id = MovieActor.mid)
-INNER JOIN Actor ON MovieActor.mid = Actor.id)
-WHERE Movie.title = "Die Another Day";

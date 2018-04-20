@@ -1,0 +1,37 @@
+CREATE TABLE Scooter(
+	id INT PRIMARY KEY,	//also a foreign key
+	flag TINYINT NOT NULL,
+	home TINYINT NOT NULL,
+	CHECK(flag >=0 AND flag <=2 AND home >=0 AND home <=2))
+CREATE TABLE User(
+	id INT PRIMARY KEY,	//also a foreign key
+	credit_card VARCHAR(16),
+	expiration DATE,
+	email varchar(100) NOT NULL,
+	CHECK((credit_card IS NOT NULL AND expiration IS NOT NULL)OR(credit_card IS NULL AND expiration IS NULL)))
+
+CREATE TABLE Trip(
+	id INT PRIMARY KEY,
+	uid INT,
+	sid INT,
+	start_location REAL NOT NULL,
+	end_location REAL,
+	start_time TIMESTAMP NOT NULL,
+	end_time TIMESTAMP,
+	FOREIGN KEY(uid) REFERENCES User(id),
+	FOREIGN KEY(sid) REFERENCES Scoorter(id))
+
+C If we cache the ride data, it will help reduce the load for the queries to the database. However, other apps will not have the updated info if they query the database and may get incorrect results. This may happen when a user activates a Bird but another user sees the Bird as offline even though it is online.
+I would modify the row on activation and park since accurate data is more improtant that reducing the load. A better way would to be to use a callback. When we want to know if a Bird is active, we can request the Bird its status. If it is being used then we would reply with its correct status. Thus, we main
+
+
+
+Trip
+------------
+id
+uid
+sid
+start_location
+end_location
+start_time
+end_time

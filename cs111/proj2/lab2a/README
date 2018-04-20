@@ -1,0 +1,47 @@
+NAME: Andrew Ding
+EMAIL: andrewxding@ucla.edu	
+ID: 504748356
+
+FILES
+
+lab2_add.c: a C program that implements and tests a shared variable add function, with various type of locking to demostrate critical sections/race conditions
+SortedList.h: a header file (supplied by us) describing the interfaces for linked list operations.
+SortedList.c: C module that implements insert, delete, lookup, and length methods for a sorted doubly linked list which includes correct placement of yield calls.
+lab2_list.c: C program that implements inserting, lookingup, and deleting elements from a linkedlist with variable yield options and with different synchronization methods
+Makefile: build the deliverable programs, output, graphs, and tarball.
+lab2_add.csv: containing all of your results for all of the Part-1 tests.
+lab2_list.csv: containing all of your results for all of the Part-2 tests.
+lab2_add-1.png: graph of threads and iterations required to generate a failure (with and without yields).
+lab2_add-2.png: graph of average time per operation with and without yields.
+lab2_add-3.png: graph of average time per (single threaded) operation vs. the number of iterations.
+lab2_add-4.png: graph of threads and iterations that can run successfully with yields under each of the three synchronization methods.
+lab2_add-5.png: graph of average time per (multi-threaded) operation vs. the number of threads, for all four versions of the add function.
+lab2_list-1.png: graph of average time per (single threaded) unprotected operation vs. number of iterations (illustrating the correction of the per-operation cost for the list length).
+lab2_list-2.png: graph of threads and iterations required to generate a failure (with and without yields).
+lab2_list-3.png: graph of iterations that can run (protected) without failure.
+lab2_list-4.png: graph of (corrected) average time per operation (for unprotected, mutex, and spin-lock) vs. number of threads.
+README: text file containing: descriptions of each of the included files  and brief (1-4 sentences per question) answers to each of the questions (below)
+
+Questions
+==================
+2.1.1) Errors are seen when there are 10000 iterations with threads > 2. It takes many iterations before errors are seen because because the time cost for creating a thread is very expensive, so if you are only using a small number of iterations, then one thread might finish running before the second thread is even created. Thus, the threads will not be running together at the same time, so there's no race condition since the multiple threads are not interacting. On the other hand, for larger number of iterations, more threads are running at the same time so there is a greater chance of race conditions due to them accessing and writing to the same counter variable simultaneously, so the value of the counter will likely be incorrect and not equal to 0. In addition, the probability that a thread is swapped outafter loading the counter value but before saving it is extremely low, so it will be seen only consistently with lots of adds.
+
+2.1.2) The --yield runs are slower since sched_yield() performs a context switch that goes into kernel mode and the thread relinquishes the CPU and is put at the end of the queue to run again. Context 
+switches cause the program to run a lot slower, since everytime the state has to saved and also restored.
+
+2.1.3) The cost to create threads is very high, so the amount of work a thread does for a small number of iterations is less that the overhead to create it. However with more iterations, the threads
+do much more work and allow the process to run faster. Thus, the average cost per operation drops with more iterations. Eventually, the overhead of creating threads is neglible to the operations the
+thread does, so the cost per operation will plateau. Since the cost per iteration is a function of the number of iterations, we can keep running the iterations until the slope of cost per operation
+is 0. Wherever the slope is 0, we can run that number of iterations with correct cost.
+
+2.1.4) The different options perform similary for small number of threads because there will be few threads waiting for a lock and will most likely obtain the lock quickly. With more threads, the 
+operations slow down since there are more threads running and so it is more likely that a thread will be holding the lock. Thus other threads will have to wait more to obtain the lock and will 
+cause the overall completion time of the threads to be higher. 
+
+2.2.1) 
+The variation in time per mutex protected operation vs the number of threads has the same upward trends for both the adds and sorted lists. This is because as there are more threads, there is more 
+competition to get the locks so more threads would be sleeping. The list seems to increase more sharply, since the linked list operations hold the lock for a much longer period of time since the 
+critical section is larger and thus threads would be sleeping longer.
+
+
+2.2.2) For a small number of threads, the costs of spin-locks are almost the same as that of mutexes, but the costs of the spin-locks grows greater than that of the mutexes for more threads. The performance is similar for small number of threads since there will be few competition for the locks, but with more threads it is more likely the threads will be competing for the same lock. Since the spin lock wastes CPU cycles while waiting to acquire the lock, the spin lock's costs is greater than that of the mutex. The increase in time per operation for mutexes increases nearly linearly at a very small slope while the  spin lock increases linearly at a much higher rate. This is because spin locks wastes cpu cycles, but mutexes scale since they allow threads to sleep.

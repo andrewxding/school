@@ -1,0 +1,16 @@
+NAME:Andrew Ding
+EMAIL:andrewxding@ucla.edu
+ID:504748356
+
+INCLUDED FILES 
+----------------------------
+lab1a.c: source module. it uses long opts to see if it needs to create a child
+	shell process. The parent process is a character-at-a-time, full duplex terminal
+	I/O and restores to nomral terminal on exit. If shell is specified, it creates a child shell 
+	process which takes input from parent and runs the input in the shell and outputs
+	to the parent which outputs to terminal. The parent can quit shell with predefined escape sequence
+	^D for EOF and ^C to kill child process. The parent reading from stdin and from
+	the shell is done with polling and if the shell process is killed, it will cause an error
+	and close the parent process.
+Makefile: to build and test the project, creates a tarball
+README: document explaining the project and files included

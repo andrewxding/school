@@ -1,0 +1,14 @@
+NAME:Andrew Ding
+EMAIL:andrewxding@ucla.edu
+ID:504748356
+
+FILES:
+lab4c_tcp.c: contains c source code that collects temperature readings from the Beaglebone and supports options for logging,
+temperature scale, and turning on/off. It establishes a socket connection to a specified server using a specified port, and sends
+output through the socket, and receives commands through the socket.
+lab4c_tls.c: contains c source code that achieves same functionality as lab4c_tcp.c, but uses tls encryption.
+Makefile: to build and test your application
+README: contains descriptions of each of the included files.
+
+RESOURCES:
+https://www.cs.utah.edu/~swalton/listings/articles/ssl_client.c

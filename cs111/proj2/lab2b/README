@@ -1,0 +1,47 @@
+NAME: Andrew Ding
+EMAIL: andrewxding@ucla.edu	
+ID: 504748356
+
+FILES
+
+
+SortedList.h:  a header file containing interfaces for linked list operations.
+SortedList.c: C module that implements insert, delete, lookup, and length methods for a sorted doubly linked list which includes correct placement of yield calls.
+lab2_list.c: C program that implements inserting, lookingup, and deleting elements from a linkedlist with variable yield options and with different synchronization methods
+Makefile: build the deliverable programs, output, graphs, and tarball.
+profile.out - execution profiling report showing where time was spent in the un-partitioned spin-lock implementation.
+lab2b_list.csv: containing all of your results for all of the Part-2 tests.
+llab2b_1.png ... throughput vs. number of threads for mutex and spin-lock synchronized list operations.
+lab2b_2.png ... mean time per mutex wait and mean time per operation for mutex-synchronized list operations.
+lab2b_3.png ... successful iterations vs. threads for each synchronization method.
+lab2b_4.png ... throughput vs. number of threads for mutex synchronized partitioned lists.
+lab2b_5.png ... throughput vs. number of threads for spin-lock-synchronized partitioned lists.
+README: text file containing: descriptions of each of the included files  and brief (1-4 sentences per question) answers to each of the questions (below)
+
+Questions
+==================
+ 2.3.1)
+ Since we are only using 1 and 2 threads, there won't be competition for the locks and thus threads will not have to wait for locks.
+ Thus, for the add operation, the actual load, add and saving of the value would probably have the same cost as obtaining and releasing locks.
+ For the list operations, I think most of the cycles are being spent traversing the list since there won't be much overheads for locks. Inserting, looking up, and deleting in a list is more expensive.
+ For the high thread spinlock tests, most of the time will be spent by the cpu spinning to obtain the lock. Since there is only one lock, many threads will be waiting for the lock and wasting cpu cycles.
+ For the high thread mutex tests, most of the time will be spent making context switches when a thread tries to acquire the lock and gives up the CPU, since switching between user and kernel mode is expensive
+
+ 2.3.2)
+ The lines that involve spinning to wait and check for the spinlock is where most of the CPU cycles are spent. 
+ This is because many threads must wait to acquire one lock, creating a lot of competition. Each thread will spin and waste CPU cycles while waiting, while only one thread can run in the critical section.
+
+ 2.3.3)
+ The average lock wait time rises dramatically with number of contending threads since more threads = more competition = more time a thread must wait to acquire the lock.
+ The completion time per operation rises less dramatically since it doesn't really include the time each thread waits to acquire the lock. When there are a lot of threads waiting for the lock, the program becomes less parallelized and is thus slower. Thus, it rises since the program is less parallel, but doesnt dramatically rise since it only inclues run time and not waiting time of threads.
+ The wait time per operation goes up faster than the completion time per operation since it includes the wall time for each thread and will include the wait time per thread, which will probably overlap with the wait time of other threads.
+
+ 2.3.4)
+ For the change inperformance of the syncrhonized mehtods as a function of number of lists, more lists = more throughput since it reduces the 
+ competition for accessing a particular lock since the critical section is shorter. We see there is a slight decrease in performance with more threads since it creates more competition for locks, but it is very little.
+ The throughput should increase with number of lists until the maximum number of threads is reached that can run in parallel on a CPU. More 
+ sublists reduces competition, but it will reach a point where this reduction is negligible because there is already so little competition
+ No, it doesn't seem that the throughput of a  N way partitioned lsit is equal to that of a list with fewer threads. Though number of
+ threads creates more competition and reduces throughput, the higher throughput for n-way partitioned list than a single list with fewer threads
+ shows that shortening the time in the critical section greatly increases throughput compared to the reduced competition from a single list
+ with fewer threads.

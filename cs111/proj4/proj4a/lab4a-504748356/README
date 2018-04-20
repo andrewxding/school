@@ -1,0 +1,18 @@
+NAME: Andrew Ding
+EMAIL: andrewxding@ucla.edu
+ID: 504748356
+
+Serial number: BBGW16062345
+WiFi: 172.29.3.101
+
+Files
+==================================
+README - has BeagleBone S/N and WiFi address as well as description of files
+my_beaglebone.jpg - a picture of me holding my beaglebone with the chip
+connected.png - screenshot of a USB terminal ssh showing the results of a
+	ifconfig command to display IP and MAC address, also showing the changed beaglebone name
+copy.png - screen shot of sftp using Filezilla to copy a helloworld.c program to the beaglebone
+build_run.png - screenshot showing a WiFi ssh session where I compile and run the 
+	helloworld.c program
+git.png - screenshot showing me sudo apt-get git, as well as showing my directory before and 
+	after a successful git clone on my own repo
